@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="golden.mapper.ProjectMapper" >
+  <resultMap id="BaseResultMap" type="golden.model.Project" >
+    <id column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="photosource" property="photosource" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="golden.model.Project" extends="BaseResultMap" >
+    <result column="project" property="project" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    project_id, username, photosource, title
+  </sql>
+  <sql id="Blob_Column_List" >
+    project
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from project
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from project
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="golden.model.Project" >
+    insert into project (project_id, username, photosource, 
+      title, project)
+    values (#{projectId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{photosource,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{project,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="golden.model.Project" >
+    insert into project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="photosource != null" >
+        photosource,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="project != null" >
+        project,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="photosource != null" >
+        #{photosource,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="project != null" >
+        #{project,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="golden.model.Project" >
+    update project
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="photosource != null" >
+        photosource = #{photosource,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="project != null" >
+        project = #{project,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="golden.model.Project" >
+    update project
+    set username = #{username,jdbcType=VARCHAR},
+      photosource = #{photosource,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      project = #{project,jdbcType=LONGVARCHAR}
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="golden.model.Project" >
+    update project
+    set username = #{username,jdbcType=VARCHAR},
+      photosource = #{photosource,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR}
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </update>
+</mapper>

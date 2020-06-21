@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="golden.mapper.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="golden.model.Article" >
+    <id column="article_id" property="articleId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="photosource" property="photosource" jdbcType="VARCHAR" />
+    <result column="cover_image" property="coverImage" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <resultMap id="listMap" type="golden.tempmodel.title_list" >
+    <id column="article_id" property="articleId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="cover_image" property="coverImage" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    article_id, content, title, username, photosource, cover_image, date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from article
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="select_title_list" resultMap="listMap" >
+    select 
+    article_id, title, username, cover_image, date
+    from article
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from article
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="golden.model.Article" >
+    insert into article (article_id, content, title, 
+      username, photosource, cover_image, 
+      date)
+    values (#{articleId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR}, #{photosource,jdbcType=VARCHAR}, #{coverImage,jdbcType=VARCHAR}, 
+      #{date,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="golden.model.Article" >
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="photosource != null" >
+        photosource,
+      </if>
+      <if test="coverImage != null" >
+        cover_image,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="articleId != null" >
+        #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="photosource != null" >
+        #{photosource,jdbcType=VARCHAR},
+      </if>
+      <if test="coverImage != null" >
+        #{coverImage,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="golden.model.Article" >
+    update article
+    <set >
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="photosource != null" >
+        photosource = #{photosource,jdbcType=VARCHAR},
+      </if>
+      <if test="coverImage != null" >
+        cover_image = #{coverImage,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="golden.model.Article" >
+    update article
+    set content = #{content,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      photosource = #{photosource,jdbcType=VARCHAR},
+      cover_image = #{coverImage,jdbcType=VARCHAR},
+      date = #{date,jdbcType=VARCHAR}
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </update>
+</mapper>

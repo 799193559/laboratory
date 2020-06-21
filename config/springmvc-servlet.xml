@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+	http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd ">							
+	
+	<!-- 开放静态资源 -->
+	<mvc:default-servlet-handler />
+	<mvc:resources location="/" mapping="/**/*.css"/>
+    <mvc:resources location="/" mapping="/**/*.js"/>
+    <mvc:resources location="/" mapping="/**/*.jpg"/>
+    <mvc:resources location="/" mapping="/**/*.rtf"/>
+    <mvc:resources location="/" mapping="/**/*.png"/>
+    <mvc:resources location="/" mapping="/**/*.mp4"/>
+    <mvc:resources mapping="/image/**" location="/upload/"/>
+    
+	<!-- 开启注解扫描器 -->
+	<context:component-scan base-package="golden.controller"/>
+	<!-- 配置视图解析器 -->
+<!-- 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean> -->
+	
+	<!-- 注册文件上传解析器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="maxUploadSize" value="50000000"/>
+    </bean>
+	
+	<mvc:interceptors>
+	    <mvc:interceptor>
+	        <mvc:mapping path="/**"/>
+	        <mvc:exclude-mapping path="/api/login"/>
+	        <mvc:exclude-mapping path="/api/register"/>
+            <mvc:exclude-mapping path="/**/*.jpg"/>
+            <mvc:exclude-mapping path="/**/*.png"/>
+            <mvc:exclude-mapping path="/**/*.mp4"/>
+	        <mvc:exclude-mapping path="/api/articledetail"/>
+	        <mvc:exclude-mapping path="/api/getnewslist"/>
+	        <mvc:exclude-mapping path="/api/getotherlist"/>
+	        <mvc:exclude-mapping path="/api/selectrecommend"/>
+	        <mvc:exclude-mapping path="/api/getresearcherlist"/>
+	        <bean class="golden.interceptor.interceptor"></bean>
+	    </mvc:interceptor> 
+	</mvc:interceptors>
+
+	
+	<!-- 开启支持json（默认用的json包是Jackson）等功能 -->
+	<mvc:annotation-driven/>
+		
+		
+	<!-- 接口跨域配置 -->  
+    <mvc:cors>  
+          <mvc:mapping path="/**"  
+                       allowed-origins="*"  
+                       allowed-methods="POST, GET, OPTIONS, DELETE, PUT"  
+                       allowed-headers="Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"  
+                       allow-credentials="true" />  
+      </mvc:cors>
+</beans>
+

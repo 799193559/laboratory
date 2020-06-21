@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="golden.mapper.NewsMapper" >
+  <resultMap id="BaseResultMap" type="golden.model.News" >
+    <id column="news_id" property="newsId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="photosource" property="photosource" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="golden.model.News" extends="BaseResultMap" >
+    <result column="news" property="news" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    news_id, title, username, photosource
+  </sql>
+  <sql id="Blob_Column_List" >
+    news
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where news_id = #{newsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from news
+    where news_id = #{newsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="golden.model.News" >
+    insert into news ( title, username, 
+      photosource, news)
+    values (#{title,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{photosource,jdbcType=VARCHAR}, #{news,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="golden.model.News" >
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="newsId != null" >
+        news_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="photosource != null" >
+        photosource,
+      </if>
+      <if test="news != null" >
+        news,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="newsId != null" >
+        #{newsId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="photosource != null" >
+        #{photosource,jdbcType=VARCHAR},
+      </if>
+      <if test="news != null" >
+        #{news,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="golden.model.News" >
+    update news
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="photosource != null" >
+        photosource = #{photosource,jdbcType=VARCHAR},
+      </if>
+      <if test="news != null" >
+        news = #{news,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where news_id = #{newsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="golden.model.News" >
+    update news
+    set title = #{title,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      photosource = #{photosource,jdbcType=VARCHAR},
+      news = #{news,jdbcType=LONGVARCHAR}
+    where news_id = #{newsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="golden.model.News" >
+    update news
+    set title = #{title,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      photosource = #{photosource,jdbcType=VARCHAR}
+    where news_id = #{newsId,jdbcType=INTEGER}
+  </update>
+</mapper>

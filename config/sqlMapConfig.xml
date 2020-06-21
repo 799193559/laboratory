@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<!-- 数据库环境配置。如果和spring整合就不需要配了，完全交给spring
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				注意
+				<property name="url" value="jdbc:mysql://localhost:3306/day1" />
+				<property name="username" value="root" />
+				<property name="password" value="hcf234518" />
+			</dataSource>
+		</environment>
+	</environments> -->
+	
+	
+
+	
+	
+	
+	<!-- 控制台打印sql语句 -->
+	<settings>
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+<!--                 开启二级缓存
+    <setting name="cacheEnabled" value="true"/> -->
+    </settings>
+	
+	<!-- 注册映射文件。resource:引入映射文件，注意包之间用/  -->
+	
+	<mappers>
+		<mapper resource="golden/mapper/UserInfoMapper.xml"/>
+		<mapper resource="golden/mapper/NewsMapper.xml"/>
+        <mapper resource="golden/mapper/FindingsMapper.xml"/>
+        <mapper resource="golden/mapper/ProjectMapper.xml"/>
+        <mapper resource="golden/mapper/ArticleMapper.xml"/>
+        <mapper resource="golden/mapper/ImageMapper.xml"/>
+        <mapper resource="golden/mapper/RecommendMapper.xml"/>
+        <mapper resource="golden/mapper/FindingsMapper.xml"/>
+         <mapper resource="golden/mapper/ResearcherMapper.xml"/>
+	</mappers>
+</configuration>

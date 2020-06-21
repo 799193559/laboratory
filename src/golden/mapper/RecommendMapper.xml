@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="golden.mapper.RecommendMapper" >
+  <resultMap id="BaseResultMap" type="golden.model.Recommend" >
+    <id column="recommend_id" property="recommendId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    recommend_id, content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from recommend
+    where recommend_id = #{recommendId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from recommend
+    where recommend_id = #{recommendId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="golden.model.Recommend" >
+    insert into recommend (recommend_id, content)
+    values (#{recommendId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="golden.model.Recommend" >
+    insert into recommend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recommendId != null" >
+        recommend_id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recommendId != null" >
+        #{recommendId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="golden.model.Recommend" >
+    update recommend
+    <set >
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where recommend_id = #{recommendId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="golden.model.Recommend" >
+    update recommend
+    set content = #{content,jdbcType=VARCHAR}
+    where recommend_id = #{recommendId,jdbcType=INTEGER}
+  </update>
+</mapper>
